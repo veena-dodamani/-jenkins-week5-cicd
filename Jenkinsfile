@@ -10,13 +10,36 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'build.bat'
+                bat '''
+                echo Checking Java...
+                "C:\\Users\\Veena S Dodamani\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\\bin\\java.exe" -version
+
+                if not exist build mkdir build
+
+                "C:\\Users\\Veena S Dodamani\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\\bin\\javac.exe" -d build src\\Hello.java
+
+                if errorlevel 1 exit /b 1
+
+                echo BUILD SUCCESS
+                '''
             }
         }
 
         stage('Test') {
             steps {
-                bat 'test.bat'
+                bat '''
+                "C:\\Users\\Veena S Dodamani\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\\bin\\java.exe" -cp build Hello > test-output.txt
+
+                findstr /C:"Hello from Week 5 Jenkins CI/CD!" test-output.txt >nul
+
+                if errorlevel 1 (
+                    echo TEST FAILED
+                    type test-output.txt
+                    exit /b 1
+                )
+
+                echo TEST PASSED
+                '''
             }
         }
     }
