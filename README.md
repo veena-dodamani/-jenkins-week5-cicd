@@ -15,3 +15,4 @@ build.bat
 test.bat
 ```
 Jenkins webhook test
+Poll SCM automatic build test
