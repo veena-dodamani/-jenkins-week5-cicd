@@ -30,7 +30,7 @@ pipeline {
                 bat '''
                 "C:\\Users\\Veena S Dodamani\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\\bin\\java.exe" -cp build Hello > test-output.txt
 
-                findstr /C:"WRONG TEST MESSAGE" test-output.txt >nul
+              findstr /C:"WRONG TEST MESSAGE" test-output.txt >nul
 
                 if errorlevel 1 (
                     echo TEST FAILED
