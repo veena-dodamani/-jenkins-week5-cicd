@@ -30,7 +30,7 @@ pipeline {
                 bat '''
                 "C:\\Users\\Veena S Dodamani\\AppData\\Local\\Programs\\Eclipse Adoptium\\jdk-21.0.12.101-hotspot\\bin\\java.exe" -cp build Hello > test-output.txt
 
-   findstr /C:"Hello from Week 5 Jenkins CI/CD!" test-output.txt >nul
+                findstr /C:"Hello from Week 5 Jenkins CI/CD!" test-output.txt >nul
 
                 if errorlevel 1 (
                     echo TEST FAILED
@@ -39,6 +39,19 @@ pipeline {
                 )
 
                 echo TEST PASSED
+                '''
+            }
+        }
+
+        stage('Validation') {
+            steps {
+                bat '''
+                if exist build\\Hello.class (
+                    echo VALIDATION PASSED - Build artifact exists.
+                ) else (
+                    echo VALIDATION FAILED - Build artifact missing.
+                    exit /b 1
+                )
                 '''
             }
         }
